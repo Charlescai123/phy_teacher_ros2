@@ -10,6 +10,8 @@
 **phy_teacher_ros2** is a ROS 2 package designed for safety-critical control via physics-model-based controller synthesis. It ensures real-time safety by solving Linear Matrix Inequalities (LMIs) constructed from system dynamics, and publishes safe control gains. 
 This system builds upon [**ecvxcone**](https://github.com/Charlescai123/ecvxcone) — a lightweight, embedded solver tailored for general cone programming problems (LP, QP, SOCP, SDP). 
 
+## 🛡️ **`Real-Time Patch`:** **Safe Control under Marginal Conditions**
+
 Consider a general class of discrete-time nonlinear systems, represented in a matrix form as follows:
 
 $$
@@ -20,8 +22,6 @@ $$
 $$
 
 > **Tips:** Here, $\mathbf{s}(t) \in \mathbb{R}^n$ denotes the system state, and $\mathbf{a}(t) \in \mathbb{R}^m$ denotes the control input at time step $t$. The matrices $\mathbf{A}(\cdot) \in \mathbb{R}^{n \times n}$ and $\mathbf{B}(\cdot) \in \mathbb{R}^{n \times m}$ characterize the **state-dependent**, nonlinear dynamics derived from approximate physical modeling. The term $\mathbf{g}(\cdot) \in \mathbb{R}^n$ accounts for unmodeled or residual dynamics which is not captured by the nominal model structure.
-
-## 🛡️ **`Real-Time Patch`:** **Safe Control under Marginal Conditions**
 
 To maintain safety under system uncertainty, we introduce a **Real-Time Patch** mechanism. When the system state approaches marginal-safety boundaries at time step $k$, a patch center is formed by:
 
@@ -147,7 +147,8 @@ You’ll receive safe `Kp` and `Kd` values published from the controller.
   <br><b>Figure. ROS 2 Node Graph</b>
 </p>
 
-> **Cautions:** To meet real-time performance requirements, `taskset` is used to pin the solver to a dedicated CPU core, minimizing context-switching overhead on multi-core systems. By default, the phy_teacher node runs on core `1`. You can modify the assigned core by adjusting the `core_num` parameter in the launch file.
+> [!CAUTION]
+> To meet real-time performance requirements, `taskset` is used to pin the solver to a dedicated CPU core, minimizing context-switching overhead on multi-core systems. By default, the phy_teacher node runs on core `1`. You can modify the assigned core by adjusting the `core_num` parameter in the launch file.
 
 ## 🔖 Reference
 [1] Yihao Cai, Yanbing Mao, Lui Sha, Hongpeng Cao, and Marco Caccamo. 2025. Runtime Learning Machine. ACM Trans. Cyber-Phys. Syst. (June 2025). https://doi.org/10.1145/3744351
