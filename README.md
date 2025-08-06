@@ -7,8 +7,10 @@
 
 ---
 
-**phy_teacher_ros2** is a ROS 2 package designed for safety-critical control via physics-model-based controller synthesis. It ensures real-time safety by solving Linear Matrix Inequalities (LMIs) constructed from the system dynamics, and publishes safe control gains. 
-This system builds upon [**ecvxcone**](https://github.com/Charlescai123/ecvxcone) — a lightweight, embedded solver tailored for general cone programming problems (LP, QP, SOCP, SDP). 
+**phy_teacher_ros2** is a ROS 2 package for safety-critical control via physics-model-based controller synthesis. It ensures real-time safety by solving Linear Matrix Inequalities (LMIs) constructed from the system dynamics, and publishes safe control gains. This package is specifically designed for quadrupedal robots using the dynamic modeling framework introduced in [[1]](#-reference).
+
+Since LMIs are a special case of Semi-Definite Programming (SDP), the underlying optimization is formulated as an SDP problem.
+This package builds upon [**ecvxcone**](https://github.com/Charlescai123/ecvxcone) — a lightweight solver optimized for embedded use, supporting general cone programming problems including LP, QP, SOCP, and SDP.
 
 ## 🛡️ **`Real-Time Patch`:** **Safe Control under Marginal Conditions**
 
@@ -23,7 +25,7 @@ $$
 
 > **Tips:** Here, $\mathbf{s}(t) \in \mathbb{R}^n$ denotes the system state, and $\mathbf{a}(t) \in \mathbb{R}^m$ denotes the control input at time step $t$. The matrices $\mathbf{A}(\cdot) \in \mathbb{R}^{n \times n}$ and $\mathbf{B}(\cdot) \in \mathbb{R}^{n \times m}$ characterize the **state-dependent**, nonlinear dynamics derived from approximate physical modeling. The term $\mathbf{g}(\cdot) \in \mathbb{R}^n$ accounts for unmodeled or residual dynamics which is not captured by the nominal model structure.
 
-To maintain safety under system uncertainty, we introduce a **Real-Time Patch** mechanism. When the system state approaches marginal-safety boundaries at time step $k$, a patch center is formed by:
+To maintain safety under system uncertainty, we introduce a **Real-Time Patch** mechanism in [[2]](#-reference). When the system state approaches marginal-safety boundaries at time step $k$, a patch center is formed by:
 
 $$
 \begin{aligned}
@@ -151,6 +153,8 @@ You’ll receive safe `Kp` and `Kd` values published from the controller.
 > To meet the real-time performance requirements, `taskset` is used to pin the solver to a dedicated CPU core, which minimizes context-switching overhead on multi-core systems. By default, `phy_teacher node` runs on cpu core `1`. You can modify the assigned core by adjusting the `core_num` parameter in the launch file.
 
 ## 🔖 Reference
-[1] Yihao Cai, Yanbing Mao, Lui Sha, Hongpeng Cao, and Marco Caccamo. 2025. Runtime Learning Machine. ACM Trans. Cyber-Phys. Syst. (June 2025). https://doi.org/10.1145/3744351
+[1] J. Di Carlo, P. M. Wensing, B. Katz, G. Bledt and S. Kim, "Dynamic Locomotion in the MIT Cheetah 3 Through Convex Model-Predictive Control," doi: [10.1109/IROS.2018.8594448](https://ieeexplore.ieee.org/document/8594448). 
+
+[2] Yihao Cai, Yanbing Mao, Lui Sha, Hongpeng Cao, and Marco Caccamo. 2025. Runtime Learning Machine. ACM Trans. Cyber-Phys. Syst. (June 2025). https://doi.org/10.1145/3744351
 
 
