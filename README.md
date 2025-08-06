@@ -7,7 +7,7 @@
 
 ---
 
-**phy_teacher_ros2** is a ROS 2 package designed for safety-critical control via physics-model-based controller synthesis. It ensures real-time safety by solving Linear Matrix Inequalities (LMIs) constructed from system dynamics, and publishes safe control gains. 
+**phy_teacher_ros2** is a ROS 2 package designed for safety-critical control via physics-model-based controller synthesis. It ensures real-time safety by solving Linear Matrix Inequalities (LMIs) constructed from the system dynamics, and publishes safe control gains. 
 This system builds upon [**ecvxcone**](https://github.com/Charlescai123/ecvxcone) — a lightweight, embedded solver tailored for general cone programming problems (LP, QP, SOCP, SDP). 
 
 ## 🛡️ **`Real-Time Patch`:** **Safe Control under Marginal Conditions**
@@ -31,7 +31,7 @@ $$
 \end{aligned} 
 $$
 
-Defining the deviation $\mathbf{e}(t) \triangleq \mathbf{s}(t) - \mathbf{s}_{k}^*$, we then apply a state-feedback safe control law:
+Defining the deviation $\mathbf{e}(t) \triangleq \mathbf{s}(t) - \mathbf{s}_{k}^*,$ we then apply a state-feedback safe control law:
 
 $$
 \begin{aligned}
@@ -147,8 +147,8 @@ You’ll receive safe `Kp` and `Kd` values published from the controller.
   <br><b>Figure. ROS 2 Node Graph</b>
 </p>
 
-> [!CAUTION]
-> To meet real-time performance requirements, `taskset` is used to pin the solver to a dedicated CPU core, minimizing context-switching overhead on multi-core systems. By default, the phy_teacher node runs on core `1`. You can modify the assigned core by adjusting the `core_num` parameter in the launch file.
+> [!NOTE]
+> To meet the real-time performance requirements, `taskset` is used to pin the solver to a dedicated CPU core, which minimizes context-switching overhead on multi-core systems. By default, `phy_teacher node` runs on cpu core `1`. You can modify the assigned core by adjusting the `core_num` parameter in the launch file.
 
 ## 🔖 Reference
 [1] Yihao Cai, Yanbing Mao, Lui Sha, Hongpeng Cao, and Marco Caccamo. 2025. Runtime Learning Machine. ACM Trans. Cyber-Phys. Syst. (June 2025). https://doi.org/10.1145/3744351
